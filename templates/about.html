@@ -1,0 +1,14 @@
+{% extends "index.html" %}
+{% block index %}
+<section class="section">
+  <div class="container">
+    <h1 class="title">
+      {% if name %}
+        Hello {{ name }}!
+      {% else %}
+        Hello World!
+      {% endif %}
+    </h1>
+  </div>
+</section>
+{% endblock %}

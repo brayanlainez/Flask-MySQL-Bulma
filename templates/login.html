@@ -1,0 +1,49 @@
+{% extends "index.html" %}
+{% block index %}
+  <section class="section">
+    <div class="container">
+      <div class="columns is-centered">
+        <div class="box">
+          <form action="{{ url_for('login') }}" method="POST">
+            <h3 class="is-size-3 has-text-centered has-text-weight-bold">Iniciar Sesión</h3>
+            <br>
+            <div class="field">
+              <p class="control has-icons-left">
+                <input class="input is-medium is-rounded" type="email" name="username" placeholder="Email" autofocus="" required/>
+                <span class="icon is-small is-left">
+                  <i class="fas fa-envelope"></i>
+                </span>
+              </p>
+            </div>
+            <br>
+            <div class="field">
+              <p class="control has-icons-left">
+                <input class="input is-medium is-rounded" type="password" name="password" placeholder="**********" required/>
+                <span class="icon is-small is-left">
+                  <i class="fas fa-lock"></i>
+                </span>
+              </p>
+            </div>
+            <br>
+            <div class="field">
+              <p class="control">
+                <button class="button is-fullwidth is-dark is-medium is-rounded" type="submit">
+                  Login
+                </button>
+              </p>
+            </div>
+          </form>
+          <br>
+          <nav class="level">
+            <div class="level-item has-text-centered">
+              <a class="mx-4" href="{{ url_for('about') }}">Se te olvidó tu contraseña?</a>
+            </div>
+            <div class="level-item has-text-centered">
+              <a class="mx-4" href="{{ url_for('about') }}">Crea una cuenta</a>
+            </div>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock %}

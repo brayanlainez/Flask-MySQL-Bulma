@@ -1,0 +1,130 @@
+{% extends "index.html" %}
+{% block index %}
+{% if error %}
+  <p class=error><strong>Error:</strong> {{ error }} </p>
+{% endif %}
+<section class="section px-0 py-0">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="box mt-6 mr-2">
+      {% if product == None %}
+        <form action="{{ url_for('products') }}" method="POST" enctype="multipart/form-data">
+          <h3 class="is-size-5 has-text-centered has-text-weight-bold">Crear Producto</h3>
+      {% else %}
+        <form action="{{ url_for('product_put') }}" method="POST" enctype="multipart/form-data">
+          <h3 class="is-size-5 has-text-centered has-text-weight-bold">Actualizar Producto</h3>
+          <input class="input" type="hidden" name="id" placeholder="id" required/>
+      {% endif %}
+          <br>
+          <div class="field">
+            <p class="control">
+              <input class="input" type="text" name="nombre" placeholder="nombre" autofocus="" required/>
+            </p>
+          </div>
+          <div class="field">
+            <p class="control">
+              <input class="input" type="text" name="codigo_barra" placeholder="codigo_barra" required/>
+            </p>
+          </div>
+          <div class="field">
+            <p class="control">
+              <input class="input" type="number" name="precio" placeholder="precio" step=any required/>
+            </p>
+          </div>
+          <div class="field">
+            <p class="control">
+              <input class="input" type="number" name="disponible" placeholder="disponible" required/>
+            </p>
+          </div>
+          <div class="field">
+            <p class="control">
+              <input class="input" type="text" name="detalle" placeholder="detalle" required/>
+            </p>
+          </div>
+          <div class="field">
+            <p class="control has-icons-left">
+              <input class="input" type="file" name="imagen" placeholder="imagen" accept="image/png, image/jpeg" required/>
+              <span class="icon is-small is-left">
+                <i class="fas fa-upload"></i>
+              </span>
+            </p>
+          </div>
+          <br>
+          <div class="field">
+            <p class="control">
+              <button class="button is-fullwidth is-dark" type="submit">
+                {% if product == None %}
+                  Crear Producto
+                {% else %}
+                  Actualizar Producto
+                {% endif %}
+              </button>
+            </p>
+          </div>
+        </form>
+      </div>
+
+      <table class="table is-striped table is-hoverable is-fullwidth mt-6">
+        <thead>
+          <tr>
+            <th><abbr title="id">id</abbr></th>
+            <th><abbr title="nombre">nombre</abbr></th>
+            <th><abbr title="codigo_barra">codigo_barra</abbr></th>
+            <th><abbr title="precio">precio</abbr></th>
+            <th><abbr title="disponible">disponible</abbr></th>
+            <th><abbr title="detalle">detalle</abbr></th>
+            <th><abbr title="imagen">imagen</abbr></th>
+            <th>Actions</th>          
+          </tr>
+        </thead>
+        <tbody>
+          {% for product in products %}
+            <tr>
+              <td>{{ product.0 }}</td>
+              <td>{{ product.1 }}</td>
+              <td>{{ product.2 }}</td>
+              <td>{{ product.3 }}</td>
+              <td>{{ product.4 }}</td>
+              <td>{{ product.5 }}</td>
+              <td><img src="{{ url_for('static', filename=product.6) }}" alt="{{ product.6 }}"></td>
+              <td>
+                <div class="field has-addons">
+                  <p class="control">
+                    <a class="button is-success is-small is-outlined" href="{{ url_for('products', id=product.0) }}">
+                      <span>Edit</span>
+                      <span class="icon is-small">
+                        <i class="fas fa-check"></i>
+                      </span>
+                    </a>
+                  </p>
+                  <p class="control">
+                    <a class="button is-danger is-small is-outlined" href="{{ url_for('product_delete', id=product.0) }}">
+                      <span>Delete</span>
+                      <span class="icon is-small">
+                        <i class="fas fa-times"></i>
+                      </span>
+                    </a>
+                  </p>
+                </div>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+{% if(product != None) %}
+<script>
+    let product_edit = {{ product | tojson | safe }};
+    console.log(product_edit);
+    document.getElementsByName("id")[0].value = product_edit[0];
+    document.getElementsByName("nombre")[0].value = product_edit[1];
+    document.getElementsByName("codigo_barra")[0].value = product_edit[2];
+    document.getElementsByName("precio")[0].value = product_edit[3];
+    document.getElementsByName("disponible")[0].value = product_edit[4];
+    document.getElementsByName("detalle")[0].value = product_edit[5];
+    document.getElementsByName("imagen")[0].value = product_edit[6];
+</script>
+{% endif %}
+{% endblock %}
